@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"math/big"
 
+	"github.com/nareshbhatia/movie-magic-gateway-go/pkg/graph"
 	"github.com/nareshbhatia/movie-magic-gateway-go/pkg/graph/model"
 )
 
@@ -35,14 +36,14 @@ func (r *todoResolver) User(ctx context.Context, obj *model.Todo) (*model.User, 
 	return &model.User{ID: obj.UserID, Name: "user " + obj.UserID}, nil
 }
 
-// Mutation returns MutationResolver implementation.
-func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
+// Mutation returns graph.MutationResolver implementation.
+func (r *Resolver) Mutation() graph.MutationResolver { return &mutationResolver{r} }
 
-// Query returns QueryResolver implementation.
-func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
+// Query returns graph.QueryResolver implementation.
+func (r *Resolver) Query() graph.QueryResolver { return &queryResolver{r} }
 
-// Todo returns TodoResolver implementation.
-func (r *Resolver) Todo() TodoResolver { return &todoResolver{r} }
+// Todo returns graph.TodoResolver implementation.
+func (r *Resolver) Todo() graph.TodoResolver { return &todoResolver{r} }
 
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
