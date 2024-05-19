@@ -1,4 +1,4 @@
-package graph
+package resolver
 
 // This file will be automatically regenerated based on the schema, any resolver implementations
 // will be copied through when generating and any unknown code will be moved to the end.
@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/nareshbhatia/movie-magic-gateway-go/graph/model"
+	"github.com/nareshbhatia/movie-magic-gateway-go/pkg/graph/model"
 )
 
 // CreateTodo is the resolver for the createTodo field.

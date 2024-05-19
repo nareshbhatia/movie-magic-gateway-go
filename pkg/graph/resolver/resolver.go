@@ -1,8 +1,8 @@
-package graph
+package resolver
 
 //go:generate go run github.com/99designs/gqlgen generate
 
-import "github.com/nareshbhatia/movie-magic-gateway-go/graph/model"
+import "github.com/nareshbhatia/movie-magic-gateway-go/pkg/graph/model"
 
 // This file will not be regenerated automatically.
 //
