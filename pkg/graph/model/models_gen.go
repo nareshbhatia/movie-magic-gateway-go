@@ -2,18 +2,163 @@
 
 package model
 
-type Mutation struct {
+import (
+	"fmt"
+	"io"
+	"strconv"
+)
+
+type CastMember struct {
+	Person     *Person  `json:"person"`
+	Characters []string `json:"characters,omitempty"`
 }
 
-type NewTodo struct {
-	Text   string `json:"text"`
-	UserID string `json:"userId"`
+type FilterParams struct {
+	Certs []Certificate `json:"certs,omitempty"`
+}
+
+type Image struct {
+	URL    string `json:"url"`
+	Width  int    `json:"width"`
+	Height int    `json:"height"`
+}
+
+type Movie struct {
+	ID             string               `json:"id"`
+	Name           string               `json:"name"`
+	Description    string               `json:"description"`
+	Cast           []*CastMember        `json:"cast"`
+	Certificate    Certificate          `json:"certificate"`
+	Genres         []string             `json:"genres"`
+	Image          *Image               `json:"image,omitempty"`
+	Rank           int                  `json:"rank"`
+	RatingsSummary *MovieRatingsSummary `json:"ratingsSummary"`
+	ReleaseYear    int                  `json:"releaseYear"`
+	Runtime        int                  `json:"runtime"`
+	Tagline        *string              `json:"tagline,omitempty"`
+}
+
+type MovieRatingsSummary struct {
+	AggregateRating float64 `json:"aggregateRating"`
+	VoteCount       int     `json:"voteCount"`
+}
+
+type MoviesRequest struct {
+	Filters  *FilterParams `json:"filters,omitempty"`
+	Sort     *SortParam    `json:"sort,omitempty"`
+	PageSpec *PageSpec     `json:"pageSpec,omitempty"`
+}
+
+type MoviesResponse struct {
+	Movies   []*Movie        `json:"movies"`
+	PageInfo *PaginationInfo `json:"pageInfo"`
+}
+
+type PageSpec struct {
+	Page    int `json:"page"`
+	PerPage int `json:"perPage"`
+}
+
+type PaginationInfo struct {
+	TotalPages      int  `json:"totalPages"`
+	TotalItems      int  `json:"totalItems"`
+	Page            int  `json:"page"`
+	PerPage         int  `json:"perPage"`
+	HasNextPage     bool `json:"hasNextPage"`
+	HasPreviousPage bool `json:"hasPreviousPage"`
+}
+
+type Person struct {
+	ID    string `json:"id"`
+	Name  string `json:"name"`
+	Image *Image `json:"image,omitempty"`
 }
 
 type Query struct {
 }
 
-type User struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+type Certificate string
+
+const (
+	CertificateCertificateG    Certificate = "CERTIFICATE_G"
+	CertificateCertificateNr   Certificate = "CERTIFICATE_NR"
+	CertificateCertificatePg13 Certificate = "CERTIFICATE_PG_13"
+	CertificateCertificatePg   Certificate = "CERTIFICATE_PG"
+	CertificateCertificateR    Certificate = "CERTIFICATE_R"
+)
+
+var AllCertificate = []Certificate{
+	CertificateCertificateG,
+	CertificateCertificateNr,
+	CertificateCertificatePg13,
+	CertificateCertificatePg,
+	CertificateCertificateR,
+}
+
+func (e Certificate) IsValid() bool {
+	switch e {
+	case CertificateCertificateG, CertificateCertificateNr, CertificateCertificatePg13, CertificateCertificatePg, CertificateCertificateR:
+		return true
+	}
+	return false
+}
+
+func (e Certificate) String() string {
+	return string(e)
+}
+
+func (e *Certificate) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = Certificate(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid Certificate", str)
+	}
+	return nil
+}
+
+func (e Certificate) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type SortParam string
+
+const (
+	SortParamSortParamRankAsc SortParam = "SORT_PARAM_RANK_ASC"
+)
+
+var AllSortParam = []SortParam{
+	SortParamSortParamRankAsc,
+}
+
+func (e SortParam) IsValid() bool {
+	switch e {
+	case SortParamSortParamRankAsc:
+		return true
+	}
+	return false
+}
+
+func (e SortParam) String() string {
+	return string(e)
+}
+
+func (e *SortParam) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SortParam(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SortParam", str)
+	}
+	return nil
+}
+
+func (e SortParam) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
 }
