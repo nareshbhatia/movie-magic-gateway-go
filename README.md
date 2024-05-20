@@ -14,6 +14,14 @@ query ListMovies($input: MoviesRequest!) {
     movies {
       id
       name
+      cast {
+        person {
+          id
+          name
+        }
+        characters
+      }
+      genres
       rank
       releaseYear
       ratingsSummary {

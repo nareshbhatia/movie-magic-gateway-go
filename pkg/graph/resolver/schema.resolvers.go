@@ -17,7 +17,17 @@ func (r *queryResolver) Movies(ctx context.Context, input model.MoviesRequest) (
 		{
 			ID:   "1",
 			Name: "Movie 1",
-			Rank: 1,
+			Cast: []*model.CastMember{
+				{
+					Person: &model.Person{
+						ID:   "1",
+						Name: "Actor 1",
+					},
+					Characters: []string{"Character 1", "Character 2"},
+				},
+			},
+			Genres: []string{"Romantic", "Comedy"},
+			Rank:   1,
 			RatingsSummary: &model.MovieRatingsSummary{
 				AggregateRating: 4.5,
 				VoteCount:       100,
@@ -27,7 +37,17 @@ func (r *queryResolver) Movies(ctx context.Context, input model.MoviesRequest) (
 		{
 			ID:   "2",
 			Name: "Movie 2",
-			Rank: 2,
+			Cast: []*model.CastMember{
+				{
+					Person: &model.Person{
+						ID:   "2",
+						Name: "Actor 2",
+					},
+					Characters: []string{"Character 1", "Character 2"},
+				},
+			},
+			Genres: []string{"Thriller", "Suspense"},
+			Rank:   2,
 			RatingsSummary: &model.MovieRatingsSummary{
 				AggregateRating: 5,
 				VoteCount:       200,
