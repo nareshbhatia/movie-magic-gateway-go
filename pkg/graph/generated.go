@@ -97,12 +97,12 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		Movies func(childComplexity int, filter model.MoviesRequest) int
+		Movies func(childComplexity int, input model.MoviesRequest) int
 	}
 }
 
 type QueryResolver interface {
-	Movies(ctx context.Context, filter model.MoviesRequest) (*model.MoviesResponse, error)
+	Movies(ctx context.Context, input model.MoviesRequest) (*model.MoviesResponse, error)
 }
 
 type executableSchema struct {
@@ -344,7 +344,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Movies(childComplexity, args["filter"].(model.MoviesRequest)), true
+		return e.complexity.Query.Movies(childComplexity, args["input"].(model.MoviesRequest)), true
 
 	}
 	return 0, false
@@ -546,7 +546,7 @@ type MoviesResponse {
 # ---------- Queries ----------
 
 type Query {
-  movies(filter: MoviesRequest!): MoviesResponse!
+  movies(input: MoviesRequest!): MoviesResponse!
 }
 `, BuiltIn: false},
 }
@@ -575,14 +575,14 @@ func (ec *executionContext) field_Query_movies_args(ctx context.Context, rawArgs
 	var err error
 	args := map[string]interface{}{}
 	var arg0 model.MoviesRequest
-	if tmp, ok := rawArgs["filter"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNMoviesRequest2githubᚗcomᚋnareshbhatiaᚋmovieᚑmagicᚑgatewayᚑgoᚋpkgᚋgraphᚋmodelᚐMoviesRequest(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["filter"] = arg0
+	args["input"] = arg0
 	return args, nil
 }
 
@@ -2022,7 +2022,7 @@ func (ec *executionContext) _Query_movies(ctx context.Context, field graphql.Col
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Movies(rctx, fc.Args["filter"].(model.MoviesRequest))
+		return ec.resolvers.Query().Movies(rctx, fc.Args["input"].(model.MoviesRequest))
 	})
 	if err != nil {
 		ec.Error(ctx, err)

@@ -105,5 +105,5 @@ type MoviesResponse {
 # ---------- Queries ----------
 
 type Query {
-  movies(filter: MoviesRequest!): MoviesResponse!
+  movies(input: MoviesRequest!): MoviesResponse!
 }

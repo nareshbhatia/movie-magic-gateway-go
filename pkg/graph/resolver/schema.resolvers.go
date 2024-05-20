@@ -6,15 +6,49 @@ package resolver
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/nareshbhatia/movie-magic-gateway-go/pkg/graph"
 	"github.com/nareshbhatia/movie-magic-gateway-go/pkg/graph/model"
 )
 
 // Movies is the resolver for the movies field.
-func (r *queryResolver) Movies(ctx context.Context, filter model.MoviesRequest) (*model.MoviesResponse, error) {
-	panic(fmt.Errorf("not implemented: Movies - movies"))
+func (r *queryResolver) Movies(ctx context.Context, input model.MoviesRequest) (*model.MoviesResponse, error) {
+	movies := []*model.Movie{
+		{
+			ID:   "1",
+			Name: "Movie 1",
+			Rank: 1,
+			RatingsSummary: &model.MovieRatingsSummary{
+				AggregateRating: 4.5,
+				VoteCount:       100,
+			},
+			ReleaseYear: 2020,
+		},
+		{
+			ID:   "2",
+			Name: "Movie 2",
+			Rank: 2,
+			RatingsSummary: &model.MovieRatingsSummary{
+				AggregateRating: 5,
+				VoteCount:       200,
+			},
+			ReleaseYear: 2022,
+		},
+	}
+
+	moviesResponse := &model.MoviesResponse{
+		Movies: movies,
+		PageInfo: &model.PaginationInfo{
+			TotalPages:      1,
+			TotalItems:      2,
+			Page:            1,
+			PerPage:         10,
+			HasNextPage:     false,
+			HasPreviousPage: false,
+		},
+	}
+
+	return moviesResponse, nil
 }
 
 // Query returns graph.QueryResolver implementation.
