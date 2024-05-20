@@ -1,28 +1,109 @@
-# GraphQL schema example
-#
-# https://gqlgen.com/getting-started/
+# ---------- Image ----------
 
-type Todo {
-  id: ID!
-  text: String!
-  done: Boolean!
-  user: User!
+type Image {
+  url: String!
+  width: Int!
+  height: Int!
 }
 
-type User {
+# ---------- Person ----------
+
+type Person {
   id: ID!
   name: String!
+  image: Image
 }
+
+# ---------- CastMember ----------
+
+type CastMember {
+  person: Person!
+  characters: [String!]
+}
+
+# ---------- Certificate ----------
+
+enum Certificate {
+  CERTIFICATE_G
+  CERTIFICATE_NR
+  CERTIFICATE_PG_13
+  CERTIFICATE_PG
+  CERTIFICATE_R
+}
+
+# ---------- MovieRatingsSummary ----------
+
+type MovieRatingsSummary {
+  aggregateRating: Float!
+  voteCount: Int!
+}
+
+# ---------- Movie ----------
+
+type Movie {
+  id: ID!
+  name: String!
+  description: String!
+  cast: [CastMember!]!
+  certificate: Certificate!
+  genres: [String!]!
+  image: Image
+  rank: Int!
+  ratingsSummary: MovieRatingsSummary!
+  releaseYear: Int!
+  runtime: Int!
+  tagline: String
+}
+
+# ----- MoviesRequest -----
+
+input FilterParams {
+  certs: [Certificate!]
+}
+
+enum SortParam {
+  SORT_PARAM_RANK_ASC
+}
+
+input PageSpec {
+  page: Int!
+  perPage: Int!
+}
+
+input MoviesRequest {
+  filters: FilterParams
+  sort: SortParam
+  pageSpec: PageSpec
+}
+
+# ----- MoviesResponse -----
+type PaginationInfo {
+  # Total number of pages
+  totalPages: Int!
+
+  # Total number of items
+  totalItems: Int!
+
+  # Current page number
+  page: Int!
+
+  # Number of items per page
+  perPage: Int!
+
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+}
+
+type MoviesResponse {
+  movies: [Movie!]!
+  pageInfo: PaginationInfo!
+}
+
+# ---------- Queries ----------
 
 type Query {
-  todos: [Todo!]!
-}
-
-input NewTodo {
-  text: String!
-  userId: String!
-}
-
-type Mutation {
-  createTodo(input: NewTodo!): Todo!
+  movies(filter: MoviesRequest!): MoviesResponse!
 }
