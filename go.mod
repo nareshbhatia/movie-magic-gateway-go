@@ -4,7 +4,9 @@ go 1.22.3
 
 require (
 	github.com/99designs/gqlgen v0.17.47
+	github.com/nareshbhatia/movie-magic-services-go v1.0.0
 	github.com/vektah/gqlparser/v2 v2.5.12
+	google.golang.org/grpc v1.64.0
 )
 
 require (
@@ -19,8 +21,12 @@ require (
 	github.com/urfave/cli/v2 v2.27.2 // indirect
 	github.com/xrash/smetrics v0.0.0-20240312152122-5f08fbb34913 // indirect
 	golang.org/x/mod v0.17.0 // indirect
+	golang.org/x/net v0.25.0 // indirect
 	golang.org/x/sync v0.7.0 // indirect
+	golang.org/x/sys v0.20.0 // indirect
 	golang.org/x/text v0.15.0 // indirect
 	golang.org/x/tools v0.21.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240318140521-94a12d6c2237 // indirect
+	google.golang.org/protobuf v1.34.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

@@ -6,17 +6,28 @@ package resolver
 
 import (
 	"context"
+	"log"
 
 	"github.com/nareshbhatia/movie-magic-gateway-go/pkg/graph"
 	"github.com/nareshbhatia/movie-magic-gateway-go/pkg/graph/model"
+	moviepb "github.com/nareshbhatia/movie-magic-services-go/gen/go/movie/v1"
 )
 
 // Movies is the resolver for the movies field.
 func (r *queryResolver) Movies(ctx context.Context, input model.MoviesRequest) (*model.MoviesResponse, error) {
-	movies := []*model.Movie{
-		{
-			ID:   "1",
-			Name: "Movie 1",
+	req := &moviepb.ListMoviesRequest{}
+	res, err := r.movieServiceClient.ListMovies(ctx, req)
+	if err != nil {
+		log.Printf("Error fetching movies: %v", err)
+		return nil, err
+	}
+
+	// Map the gRPC response to the GraphQL model
+	movies := make([]*model.Movie, len(res.Movies))
+	for i, movie := range res.Movies {
+		movies[i] = &model.Movie{
+			ID:   movie.Id,
+			Name: movie.Name,
 			Cast: []*model.CastMember{
 				{
 					Person: &model.Person{
@@ -26,34 +37,14 @@ func (r *queryResolver) Movies(ctx context.Context, input model.MoviesRequest) (
 					Characters: []string{"Character 1", "Character 2"},
 				},
 			},
-			Genres: []string{"Romantic", "Comedy"},
-			Rank:   1,
+			Genres: movie.Genres,
+			Rank:   int(movie.Rank),
 			RatingsSummary: &model.MovieRatingsSummary{
-				AggregateRating: 4.5,
-				VoteCount:       100,
+				AggregateRating: float64(movie.RatingsSummary.AggregateRating),
+				VoteCount:       int(movie.RatingsSummary.VoteCount),
 			},
-			ReleaseYear: 2020,
-		},
-		{
-			ID:   "2",
-			Name: "Movie 2",
-			Cast: []*model.CastMember{
-				{
-					Person: &model.Person{
-						ID:   "2",
-						Name: "Actor 2",
-					},
-					Characters: []string{"Character 1", "Character 2"},
-				},
-			},
-			Genres: []string{"Thriller", "Suspense"},
-			Rank:   2,
-			RatingsSummary: &model.MovieRatingsSummary{
-				AggregateRating: 5,
-				VoteCount:       200,
-			},
-			ReleaseYear: 2022,
-		},
+			ReleaseYear: int(movie.ReleaseYear),
+		}
 	}
 
 	moviesResponse := &model.MoviesResponse{
