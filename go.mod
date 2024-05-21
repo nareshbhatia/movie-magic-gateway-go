@@ -4,7 +4,7 @@ go 1.22.3
 
 require (
 	github.com/99designs/gqlgen v0.17.47
-	github.com/nareshbhatia/movie-magic-services-go v1.0.1
+	github.com/nareshbhatia/movie-magic-services-go v1.1.0
 	github.com/vektah/gqlparser/v2 v2.5.12
 	google.golang.org/grpc v1.64.0
 )
