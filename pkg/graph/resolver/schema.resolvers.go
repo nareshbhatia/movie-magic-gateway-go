@@ -28,15 +28,7 @@ func (r *queryResolver) Movies(ctx context.Context, input model.MoviesRequest) (
 		movies[i] = &model.Movie{
 			ID:   movie.Id,
 			Name: movie.Name,
-			Cast: []*model.CastMember{
-				{
-					Person: &model.Person{
-						ID:   "1",
-						Name: "Actor 1",
-					},
-					Characters: []string{"Character 1", "Character 2"},
-				},
-			},
+			Cast:        convertCastMembers(movie.Cast),
 			Certificate: convertCertificate(movie.Certificate),
 			Genres:      movie.Genres,
 			Rank:        int(movie.Rank),

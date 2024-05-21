@@ -23,3 +23,17 @@ func convertCertificate(certificate moviev1.Certificate) model.Certificate {
 		return model.CertificateCertificateUnspecified
 	}
 }
+
+func convertCastMembers(cast []*moviev1.CastMember) []*model.CastMember {
+	castMembers := make([]*model.CastMember, len(cast))
+	for i, member := range cast {
+		castMembers[i] = &model.CastMember{
+			Person: &model.Person{
+				ID:   member.PersonId,
+				Name: "Actor " + member.PersonId,
+			},
+			Characters: member.Characters,
+		}
+	}
+	return castMembers
+}
