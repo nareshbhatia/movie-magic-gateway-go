@@ -41,7 +41,7 @@ func (r *queryResolver) Movies(ctx context.Context, input model.MoviesRequest) (
 			Genres:      movie.Genres,
 			Rank:        int(movie.Rank),
 			RatingsSummary: &model.MovieRatingsSummary{
-				AggregateRating: float64(movie.RatingsSummary.AggregateRating),
+				AggregateRating: movie.RatingsSummary.AggregateRating,
 				VoteCount:       int(movie.RatingsSummary.VoteCount),
 			},
 			ReleaseYear: int(movie.ReleaseYear),
