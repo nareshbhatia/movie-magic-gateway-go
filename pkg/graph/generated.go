@@ -465,6 +465,7 @@ type CastMember {
 # ---------- Certificate ----------
 
 enum Certificate {
+  CERTIFICATE_UNSPECIFIED
   CERTIFICATE_G
   CERTIFICATE_NR
   CERTIFICATE_PG_13

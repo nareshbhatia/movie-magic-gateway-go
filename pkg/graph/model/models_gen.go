@@ -80,14 +80,16 @@ type Query struct {
 type Certificate string
 
 const (
-	CertificateCertificateG    Certificate = "CERTIFICATE_G"
-	CertificateCertificateNr   Certificate = "CERTIFICATE_NR"
-	CertificateCertificatePg13 Certificate = "CERTIFICATE_PG_13"
-	CertificateCertificatePg   Certificate = "CERTIFICATE_PG"
-	CertificateCertificateR    Certificate = "CERTIFICATE_R"
+	CertificateCertificateUnspecified Certificate = "CERTIFICATE_UNSPECIFIED"
+	CertificateCertificateG           Certificate = "CERTIFICATE_G"
+	CertificateCertificateNr          Certificate = "CERTIFICATE_NR"
+	CertificateCertificatePg13        Certificate = "CERTIFICATE_PG_13"
+	CertificateCertificatePg          Certificate = "CERTIFICATE_PG"
+	CertificateCertificateR           Certificate = "CERTIFICATE_R"
 )
 
 var AllCertificate = []Certificate{
+	CertificateCertificateUnspecified,
 	CertificateCertificateG,
 	CertificateCertificateNr,
 	CertificateCertificatePg13,
@@ -97,7 +99,7 @@ var AllCertificate = []Certificate{
 
 func (e Certificate) IsValid() bool {
 	switch e {
-	case CertificateCertificateG, CertificateCertificateNr, CertificateCertificatePg13, CertificateCertificatePg, CertificateCertificateR:
+	case CertificateCertificateUnspecified, CertificateCertificateG, CertificateCertificateNr, CertificateCertificatePg13, CertificateCertificatePg, CertificateCertificateR:
 		return true
 	}
 	return false

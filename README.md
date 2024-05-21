@@ -21,6 +21,7 @@ query ListMovies($input: MoviesRequest!) {
         }
         characters
       }
+      certificate
       genres
       rank
       releaseYear
@@ -52,3 +53,9 @@ query ListMovies($input: MoviesRequest!) {
 ```
 
 You should see top 10 movies in the result.
+
+## Running gqlgen
+
+```shell
+go run github.com/99designs/gqlgen generate
+```
