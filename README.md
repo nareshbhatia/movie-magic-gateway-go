@@ -1,5 +1,10 @@
 # Movie Magic GraphQL Gateway in Go
 
+## Prerequisite
+
+This GraphQL gateway fetches data from [Movie Magic Services in Go](https://github.com/nareshbhatia/movie-magic-services-go).
+Make sure that that server is running before starting this gateway.
+
 ## Getting started
 
 1. Make sure you have Go installed.
